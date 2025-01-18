@@ -3,21 +3,23 @@ services:
     image: prom/prometheus:v2.44.0
     container_name: prometheus
     ports:
-      - "9091:9090"
+      - "9092:9090"  # Port modifié pour éviter les conflits
     volumes:
-      - ./eureka:/app
+      - ./my-new-app/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       - monitoring
+
   grafana:
     image: grafana/grafana:9.5.2
     container_name: grafana
     ports:
-      - "3000:3000"
+      - "3001:3000"  # Port modifié pour Grafana
     restart: unless-stopped
     volumes:
-      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./my-new-app/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
     networks:
       - monitoring
+
 networks:
   monitoring:
     driver: bridge
